@@ -33,7 +33,7 @@ export default function ConsultarLibros() {
         contentContainerStyle={{ padding: 20, paddingTop: 4 }}
         renderItem={({ item }) => (
           <Card activeOpacity={0.7}>
-            <Portada source={{ uri: item.portada }} resizeMode="cover" />
+            <Portada source={item.portada} resizeMode="cover" />
             <Info>
               <TituloLibro numberOfLines={2}>{item.titulo}</TituloLibro>
               <Dato>Autor: {item.autor}</Dato>

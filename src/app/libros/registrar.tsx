@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, ScrollView } from "react-native";
@@ -17,6 +19,29 @@ export default function RegistrarLibro() {
   const [copias, setCopias] = useState("");
   const [genero, setGenero] = useState<string | null>(null);
   const [estado, setEstado] = useState<Estado | null>(null);
+  const [imagen, setImagen] = useState<string | null>(null);
+
+  async function seleccionarImagen() {
+    const permiso = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permiso.granted) {
+      Alert.alert(
+        "Permiso necesario",
+        "Necesitamos acceso a tus fotos para elegir una portada.",
+      );
+      return;
+    }
+
+    const resultado = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [3, 4],
+      quality: 0.7,
+    });
+
+    if (!resultado.canceled) {
+      setImagen(resultado.assets[0].uri);
+    }
+  }
 
   function limpiarFormulario() {
     setTitulo("");
@@ -25,6 +50,7 @@ export default function RegistrarLibro() {
     setCopias("");
     setGenero(null);
     setEstado(null);
+    setImagen(null);
   }
 
   function handleRegistrar() {
@@ -60,11 +86,13 @@ export default function RegistrarLibro() {
       genero,
       estado,
       copias: Number(copias),
-      portada: {
-        uri: `https://placehold.co/200x280/2E9AD1/ffffff?text=${encodeURIComponent(
-          titulo.trim().slice(0, 10),
-        )}`,
-      },
+      portada: imagen
+        ? { uri: imagen }
+        : {
+            uri: `https://placehold.co/200x280/2E9AD1/ffffff?text=${encodeURIComponent(
+              titulo.trim().slice(0, 10),
+            )}`,
+          },
     });
 
     Alert.alert("¡Listo!", "El libro se registró con éxito!", [
@@ -85,6 +113,17 @@ export default function RegistrarLibro() {
       </Header>
 
       <ScrollView contentContainerStyle={{ padding: 24 }}>
+        <SelectorImagen onPress={seleccionarImagen} activeOpacity={0.7}>
+          {imagen ? (
+            <ImagenPreview source={{ uri: imagen }} resizeMode="cover" />
+          ) : (
+            <>
+              <Ionicons name="image-outline" size={36} color="#5B7085" />
+              <TextoSelector>Agregar portada</TextoSelector>
+            </>
+          )}
+        </SelectorImagen>
+
         <Etiqueta>Título</Etiqueta>
         <Input
           placeholder="Ej: Lengua y Literatura"
@@ -170,6 +209,33 @@ const Titulo = styled.Text`
   color: #fff;
   font-size: 22px;
   font-weight: bold;
+  text-align: center;
+`;
+
+const SelectorImagen = styled.TouchableOpacity`
+  align-self: center;
+  width: 120px;
+  height: 160px;
+  border-radius: 10px;
+  border-width: 1.5px;
+  border-color: #d7e0e6;
+  border-style: dashed;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+  overflow: hidden;
+`;
+
+const ImagenPreview = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+const TextoSelector = styled.Text`
+  color: #5b7085;
+  font-size: 12px;
+  margin-top: 6px;
   text-align: center;
 `;
 

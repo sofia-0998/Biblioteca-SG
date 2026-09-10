@@ -1,3 +1,5 @@
+import type { ImageSourcePropType } from "react-native";
+
 export type Estado = "Disponible" | "Prestado";
 
 export interface Libro {
@@ -8,7 +10,7 @@ export interface Libro {
   genero: string;
   copias: number;
   estado: Estado;
-  portada: string;
+  portada: ImageSourcePropType;
 }
 
 const libros: Libro[] = [
@@ -20,7 +22,7 @@ const libros: Libro[] = [
     genero: "Educativo",
     copias: 2,
     estado: "Disponible",
-    portada: "https://placehold.co/200x280/2c3e50/ffffff?text=Lengua",
+    portada: require("../../assets/covers/lengua-y-literatura.png"),
   },
   {
     id: "2",
@@ -30,7 +32,7 @@ const libros: Libro[] = [
     genero: "Divulgación",
     copias: 1,
     estado: "Disponible",
-    portada: "https://placehold.co/200x280/f1c40f/222222?text=Simpson",
+    portada: require("../../assets/covers/los-simpson-y-las-matematicas.png"),
   },
   {
     id: "3",
@@ -40,7 +42,7 @@ const libros: Libro[] = [
     genero: "Idiomas",
     copias: 3,
     estado: "Disponible",
-    portada: "https://placehold.co/200x280/3498db/ffffff?text=English",
+    portada: require("../../assets/covers/i-learn-english.png"),
   },
   {
     id: "4",
@@ -50,7 +52,37 @@ const libros: Libro[] = [
     genero: "Ciencia",
     copias: 0,
     estado: "Prestado",
-    portada: "https://placehold.co/200x280/27ae60/ffffff?text=Biología",
+    portada: require("../../assets/covers/biologia-para-dummies.png"),
+  },
+  {
+    id: "5",
+    titulo: "Orgullo y Prejuicio",
+    autor: "Jane Austen",
+    editorial: "Alma Clásicos Ilustrados",
+    genero: "Ficción",
+    copias: 2,
+    estado: "Disponible",
+    portada: require("../../assets/covers/orgullo-y-prejuicio.png"),
+  },
+  {
+    id: "6",
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes Saavedra",
+    editorial: "Susaeta",
+    genero: "Ficción",
+    copias: 1,
+    estado: "Disponible",
+    portada: require("../../assets/covers/don-quijote-de-la-mancha.png"),
+  },
+  {
+    id: "7",
+    titulo: "Harry Potter y la piedra filosofal",
+    autor: "J.K. Rowling",
+    editorial: "Salamandra",
+    genero: "Ficción",
+    copias: 4,
+    estado: "Prestado",
+    portada: require("../../assets/covers/harry-potter-piedra-filosofal.png"),
   },
 ];
 
