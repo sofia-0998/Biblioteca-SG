@@ -22,7 +22,7 @@ export default function Home() {
         <Texto>Clientes</Texto>
       </Boton>
 
-      <Boton onPress={() => proximamente("Libros")} activeOpacity={0.8}>
+      <Boton onPress={() => router.push("/libros")} activeOpacity={0.8}>
         <Ionicons name="book" size={26} color="#12314D" />
         <Texto>Libros</Texto>
       </Boton>
