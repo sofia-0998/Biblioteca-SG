@@ -1,98 +1,68 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { Alert } from "react-native";
+import styled from "styled-components/native";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+export default function Home() {
+  const router = useRouter();
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
+  function proximamente(seccion: string) {
+    Alert.alert(
+      "Próximamente",
+      `La sección "${seccion}" se implementará más adelante.`,
     );
   }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <Container>
+      <Titulo>Biblioteca SG</Titulo>
+
+      <Boton onPress={() => proximamente("Clientes")} activeOpacity={0.8}>
+        <Ionicons name="people" size={26} color="#12314D" />
+        <Texto>Clientes</Texto>
+      </Boton>
+
+      <Boton onPress={() => proximamente("Libros")} activeOpacity={0.8}>
+        <Ionicons name="book" size={26} color="#12314D" />
+        <Texto>Libros</Texto>
+      </Boton>
+
+      <Boton
+        onPress={() => proximamente("Alquiler de Libros")}
+        activeOpacity={0.8}
+      >
+        <Ionicons name="library" size={26} color="#12314D" />
+        <Texto>Alquiler de Libros</Texto>
+      </Boton>
+    </Container>
   );
 }
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+const Container = styled.View`
+  flex: 1;
+  background-color: #2e9ad1;
+  padding: 70px 24px 24px 24px;
+`;
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+const Titulo = styled.Text`
+  color: #fff;
+  font-size: 34px;
+  font-weight: bold;
+  margin-bottom: 60px;
+`;
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+const Boton = styled.TouchableOpacity`
+  background-color: #fff;
+  flex-direction: row;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  gap: 14px;
+`;
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
+const Texto = styled.Text`
+  color: #12314d;
+  font-size: 20px;
+  font-weight: bold;
+`;
